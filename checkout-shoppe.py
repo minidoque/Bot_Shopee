@@ -12,11 +12,11 @@ button_with_coin = '//*[@id="main"]/div/div[2]/div[3]/div[4]/div[2]/div[12]/butt
 
 class PrepareBot:
     def countdownTimer(self):                           #for countdown to get the flash sale
-        target_m =3                                    #target minute the flash sale can click (minute - 1)
+        target_m =4                                    #target minute the flash sale can click (minute - 1)
         target_s =60                                    #target seconds the flash sale can click                           
         current_m = time.strftime("%M")
         current_s = time.strftime("%S")
-        minutes = target_m - int(current_m)
+        minutes = target_m - int(current_m) - 1
         seconds = target_s - int(current_s)
         total_second = minutes * 60 + seconds - 1
         while total_second:
