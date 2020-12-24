@@ -28,8 +28,9 @@ class PrepareBot:
 
 class CheckOutBot(PrepareBot):
     def __init__(self):
-        self.driver = webdriver.Chrome()            #open the browser
-        self.driver.get(flash_sale)                 #get the url from flashsale and search it
+        self.driver = webdriver.Chrome()
+        self.driver.manage().window().fullscreen()              #open the browser
+        self.driver.get(flash_sale)                             #get the url from flashsale and search it
 
     def addProduct(self):
         # selectColor = self.driver.find_element_by_xpath(
@@ -60,8 +61,3 @@ if __name__ == "__main__":
 
     checkOutBot.getProduct()
     time.sleep(60)
-    
-
-
-
-# 
