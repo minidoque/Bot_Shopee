@@ -61,7 +61,3 @@ if __name__ == "__main__":
     checkOutBot.getProduct()
     time.sleep(60)
     
-
-
-
-# 
