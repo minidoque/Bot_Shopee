@@ -2,6 +2,9 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 options = Options()
 options.page_load_strategy = 'eager'
@@ -50,10 +53,12 @@ class CheckOutBot(PrepareBot):
             ).click()
     
     def getProduct(self):
-        self.driver.implicitly_wait(10)
-        checkout = self.driver.find_element_by_xpath(
-            '//*[@id="main"]/div/div[2]/div[2]/div[3]/div[2]/div[7]/div[5]/button'
-            ).click()
+        self.driver.implicitly_wait(5)
+        checkout = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="main"]/div/div[2]/div[2]/div[3]/div[2]/div[7]/div[5]/button')
+                    ))
+        checkout.click()
+
         make_order = self.driver.find_element_by_xpath(button_with_coin).click()
 
 
