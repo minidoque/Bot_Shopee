@@ -10,7 +10,7 @@ options = Options()
 options.page_load_strategy = 'eager'
 
 login_qr = "https://shopee.co.id/buyer/login/qr?next=https%3A%2F%2Fshopee.co.id%2F"  #url login via QR
-product_name = "Fladeo-E20-LDS257-2RA-Sandal-For-Ladies-Teplek-Style--i.30964028.6832819136" #Product url
+product_name = "product/52635036/6259445668/"                                        #Product url
 flash_sale = login_qr + product_name                                                 #Destination url , from qr url and product url 
 
 button_without_coin = '//*[@id="main"]/div/div[2]/div[3]/div[4]/div[2]/div[9]/button'
@@ -25,8 +25,7 @@ class PrepareBot:
         current_s = time.strftime("%S")
         minutes = target_m - int(current_m) - 1
         seconds = target_s - int(current_s)
-        # total_second = minutes * 60 + seconds - 1
-        total_second = 20
+        total_second = minutes * 60 + seconds - 2
         while total_second:
             mins, secs = divmod(total_second, 60)
             print(f'{mins:02d}:{secs:02d}', end='\r')
@@ -41,7 +40,7 @@ class CheckOutBot(PrepareBot):
         self.driver.get(flash_sale)               #open the browser and get the url from flashsale and search it
 
     def addProduct(self):
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(30)
         selectColor = self.driver.find_element_by_xpath(
             '//*[@id="main"]/div/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[4]/div/div[3]/div/div[1]/div/button[1]'     
             ).click()
