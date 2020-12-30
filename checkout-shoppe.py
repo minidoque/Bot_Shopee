@@ -1,12 +1,14 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.edge.options import Options
+from msedge.selenium_tools import Edge, EdgeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-options = Options()
+options = EdgeOptions()
+options.use_chromium = True
 options.page_load_strategy = 'eager'
 
 login_qr = "https://shopee.co.id/buyer/login/qr?next=https%3A%2F%2Fshopee.co.id%2F"  #url login via QR
@@ -19,7 +21,7 @@ button_with_coin = '//*[@id="main"]/div/div[2]/div[3]/div[4]/div[2]/div[12]/butt
 
 class ShopBot():
     def __init__(self): 
-        self.driver = webdriver.Chrome(options = options)
+        self.driver = Edge(options = options)
         self.driver.maximize_window()
         self.driver.get('https://shopee.co.id/Coolant-Lychee-350-ml-x-4-Pcs-i.78892667.7539221087')               #open the browser and get the url from flashsale and search it
 
