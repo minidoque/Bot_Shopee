@@ -1,12 +1,14 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.edge.options import Options
+from msedge.selenium_tools import Edge, EdgeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-options = Options()
+options = EdgeOptions()
+options.use_chromium = True
 options.page_load_strategy = 'eager'
 
 login_qr = "https://shopee.co.id/buyer/login/qr?next=https%3A%2F%2Fshopee.co.id%2F"  #url login via QR
@@ -34,8 +36,8 @@ class PrepareBot:
 
 
 class CheckOutBot(PrepareBot):
-    def __init__(self):
-        self.driver = webdriver.Chrome(options=options)
+    def __init__(self): 
+        self.driver = Edge(options = options)
         self.driver.maximize_window()
         self.driver.get(flash_sale)               #open the browser and get the url from flashsale and search it
 
@@ -52,7 +54,7 @@ class CheckOutBot(PrepareBot):
             ).click()
     
     def getProduct(self):
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(10)
         checkout = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
                     (By.XPATH, '//*[@id="main"]/div/div[2]/div[2]/div[3]/div[2]/div[7]/div[5]/button')
                     ))
