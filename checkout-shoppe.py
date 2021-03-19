@@ -1,4 +1,5 @@
-import time
+import datetime, time
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -10,65 +11,59 @@ options = Options()
 options.page_load_strategy = 'eager'
 
 login_qr = "https://shopee.co.id/buyer/login/qr?next=https%3A%2F%2Fshopee.co.id%2F"  #url login via QR
-product_name = "Coolant-Lychee-350-ml-x-4-Pcs-i.78892667.7539221087"                                        #Product url
+product_name = "Samsung-Galaxy-S20-FE-256-GB-Cloud-Orange-i.52635036.6259445668"                                        #Product url
 flash_sale = login_qr + product_name                                                 #Destination url , from qr url and product url 
-
-button_without_coin = '//*[@id="main"]/div/div[2]/div[3]/div[4]/div[2]/div[9]/button'
-button_with_coin = '//*[@id="main"]/div/div[2]/div[3]/div[4]/div[2]/div[12]/button'
-
 
 class ShopBot():
     def __init__(self): 
         self.driver = webdriver.Chrome(options = options)
         self.driver.maximize_window()
-        self.driver.get('https://shopee.co.id/Coolant-Lychee-350-ml-x-4-Pcs-i.78892667.7539221087')               #open the browser and get the url from flashsale and search it
+        self.driver.get(flash_sale)               #open the browser and get the url from flashsale and search it
 
     def countdownTimer(self):                           #for countdown to get the flash sale
-        target_m =4                                    #target minute the flash sale can click (minute - 1)
-        target_s =60                                    #target seconds the flash sale can click                           
-        current_m = time.strftime("%M")
-        current_s = time.strftime("%S")
-        minutes = target_m - int(current_m) - 1
-        seconds = target_s - int(current_s)
-        # total_second = minutes * 60 + seconds - 1
-        total_second = 20
-        while total_second:
-            mins, secs = divmod(total_second, 60)
-            print(f'{mins:02d}:{secs:02d}', end='\r')
-            time.sleep(0.99)
-            total_second -= 1
+        today = datetime.datetime.now()
+        delta = (datetime.datetime(2021, 3, 3, 1, 0, 0) -  today).seconds
+        while delta:
+            print(str(delta))
+            time.sleep(1)
+            today = datetime.datetime.now()
+            delta = (datetime.datetime(2021, 3, 3, 1, 0, 0) -  today).seconds
         print('NOW')
         self.driver.refresh()
 
     def addProduct(self):
-        self.driver.implicitly_wait(30)
+        self.driver.implicitly_wait(5)
 
-        add_to_cart = self.driver.find_element_by_xpath(
-            '//*[@id="main"]/div/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[5]/div/div/button[2]'
-            ).click()
+        add_to_cart = self.driver.find_element_by_class_name("btn-solid-primary.btn--l").click()
     
     def getProduct(self):
         self.driver.implicitly_wait(10)
 
         checkout = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@id="main"]/div/div[2]/div[2]/div[3]/div[2]/div[7]/div[5]/button')
+                    (By.CLASS_NAME, "shopee-button-solid.shopee-button-solid--primary")
                     ))
-        checkout.click()
+        checkout.send_keys(Keys.SPACE)
 
-        make_order = self.driver.find_element_by_xpath(button_with_coin).click()
+        self.driver.implicitly_wait(6)
 
+        bank_transfer = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+            (By.XPATH, "/html/body/div[1]/div/div[2]/div[3]/div[4]/div[1]/div/div[1]/div[2]/span[2]")
+                    )).click
+        #bank_transfer.send_keys(Keys.SPACE)
+
+        bni = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+            (By.XPATH, "/html/body/div[1]/div/div[2]/div[3]/div[4]/div[1]/div/div[2]/div[1]/div[2]/div[3]/div/div[2]/div/div/div[2]")
+                    )).click
+        #bni.send_keys(Keys.ENTER)
+
+        make_order = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+                    (By.CLASS_NAME, "stardust-button.stardust-button--primary")
+                    ))
+        make_order.send_keys(Keys.ENTER) 
 
 if __name__ == "__main__":
     ShopBot = ShopBot()
     ShopBot.countdownTimer()
     ShopBot.addProduct()
-    # checkOutBot.getProduct()
+    ShopBot.getProduct()
     time.sleep(5)
-
-
-    # selectColor = self.driver.find_element_by_xpath(
-    #     '//*[@id="main"]/div/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[4]/div/div[3]/div/div[1]/div/button[1]'     
-    #     ).click()
-    # selectModel = self.driver.find_element_by_xpath(
-    #     '//*[@id="main"]/div/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[4]/div/div[3]/div/div[2]/div/button[3]'
-    #     ).click()
