@@ -5,7 +5,7 @@ This is a flash sale bot forked from IkanPakUs' repo. It's still kind of manual 
 How to use:
 1. Clone this repo
 2. Config checkout-shopee to adjust the link of item you want to buy and also the date of said flash sale.
-3. Run program with `python checkout-shoppe.py`
+3. Run program with `python shopeebot.py`
 4. In the browser that's popped up, use qr code to login to your account.
 5. Wait until timer gets to 0.
 6. ...
